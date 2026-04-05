@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yruyruidotme",
+  "compatibility_date": "2026-04-05",
+  "observability": {
+    "enabled": true
+  },
+  "main": "./workers/app.ts",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}

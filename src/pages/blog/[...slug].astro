@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.title} | MyPage`} description={entry.data.description}>
+  <article class="flex flex-col gap-8">
+    <header class="flex flex-col gap-4 border-b border-gray-800/60 pb-8">
+      <div class="flex items-center gap-3 text-sm text-gray-500 font-medium">
+        <a href="/blog" class="hover:text-gray-300 transition-colors">← Back to blog</a>
+        <span>&middot;</span>
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {entry.data.pubDate.toLocaleDateString('en-us', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-100">{entry.data.title}</h1>
+      {entry.data.tags && entry.data.tags.length > 0 && (
+        <div class="flex gap-3 mt-2">
+          {entry.data.tags.map(tag => (
+            <span class="px-3 py-1 text-xs font-medium bg-teal-500/10 text-teal-400 rounded-full border border-teal-500/20">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-invert prose-gray max-w-none prose-headings:font-bold prose-a:text-teal-400 hover:prose-a:text-teal-300 prose-img:rounded-xl">
+      <Content />
+    </div>
+  </article>
+</Layout>

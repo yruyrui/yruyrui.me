@@ -1,7 +1,7 @@
 ---
 title: "Hello, World!"
 description: "ブログはじめました"
-pubDate: 2026-03-31
+pubDate: 2026-05-31
 tags: ["blog", "astro", "cloudflare"]
 ---
 
